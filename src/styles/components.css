@@ -317,6 +317,10 @@
     animation: marquee var(--marquee-duration) linear infinite
       var(--marquee-reverse);
 
+    &.is-offscreen {
+      animation-play-state: paused;
+    }
+
     &.marquee-element-width-auto {
       --end-transform: translateX(calc(-1 * var(--total-width)));
     }

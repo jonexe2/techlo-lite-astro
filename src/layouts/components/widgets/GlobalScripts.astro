@@ -245,11 +245,17 @@ const clientThemeConfig = JSON.stringify({
     initScrollReveal();
     initCursorFollower();
 
+    // Smooth scroll is only perceivable once the user interacts, so keep the
+    // Lenis module and its rAF loop off the critical load path entirely.
+    initOnFirstInteraction(["wheel", "touchstart", "keydown", "pointerdown"], () => {
+      initLenisSmoothScroll();
+    });
+
     runIdle(async () => {
       await initLucide();
       await loadPrelineComponents();
-      await initLenisSmoothScroll();
       await initImageLightbox();
+      initMarqueeAutoPause();
 
       const canHover = window.matchMedia("(hover: hover)").matches;
       initHorizontalScroll();
@@ -333,6 +339,19 @@ const clientThemeConfig = JSON.stringify({
       .join("");
 
     return normalized || iconName;
+  }
+
+  function initMarqueeAutoPause() {
+    const marquees = document.querySelectorAll(".marquee-content");
+    if (!marquees.length || !("IntersectionObserver" in window)) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle("is-offscreen", !entry.isIntersecting);
+      });
+    });
+
+    marquees.forEach((element) => observer.observe(element));
   }
 
   async function initLenisSmoothScroll() {
