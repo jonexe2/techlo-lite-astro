@@ -17,7 +17,7 @@
 - ✅ Built with Astro + Tailwind CSS 4
 - ✅ Fully multilingual (i18n) support
 - ✅ Fully responsive and accessible
-- ✅ 100/100 Lighthouse performance score
+- ✅ 99/100 Lighthouse performance score
 - ✅ SEO-ready: meta tags, Open Graph, JSON-LD schema
 - ✅ Minimal but tasteful built-in animations
 - ✅ Easily deploy to Vercel, Netlify, or Cloudflare Pages
