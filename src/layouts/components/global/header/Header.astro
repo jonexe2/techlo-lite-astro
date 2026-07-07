@@ -15,19 +15,13 @@ const t = await useTranslations(Astro.currentLocale as string);
 
 type TopbarContent = "location" | "office-hours";
 type HeaderLayoutConfig = {
-  topbarLayout: "primary" | "light" | "dark" | "navy";
+  topbarLayout: "light" | "navy";
   topbarLeftContent: TopbarContent[];
   topbarSize?: "default" | "compact";
-  showTopbarDots?: boolean;
   hasDarkAppearance: boolean;
-  hasFramedWrapper?: boolean;
   isTransparent?: boolean;
   isMenuRight: boolean;
-  navShellClass?: string;
   navbarClass?: string;
-  showDesktopToggler: boolean;
-  showNavigationButton: boolean;
-  showLanguageSwitcher: boolean;
 };
 
 const isCategoryFilteredPage = ["/category/", "/tag/"].some((path) =>
@@ -40,7 +34,7 @@ const {
 } = config;
 
 const {
-  layout = "one",
+  layout = "two",
   headerLayout,
   hideOffcanvas,
   position,
@@ -55,25 +49,13 @@ const {
   class?: string;
 };
 
-const layoutConfig: Partial<Record<HeaderLayout, HeaderLayoutConfig>> = {
-  one: {
-    topbarLayout: "primary",
-    topbarLeftContent: ["office-hours"],
-    hasDarkAppearance: true,
-    isMenuRight: true,
-    showDesktopToggler: true,
-    showNavigationButton: false,
-    showLanguageSwitcher: true,
-  },
+const layoutConfig: Record<HeaderLayout, HeaderLayoutConfig> = {
   two: {
     topbarLayout: "light",
     topbarLeftContent: ["location"],
     hasDarkAppearance: false,
     isMenuRight: false,
     navbarClass: "navbar-right lg:ps-5",
-    showDesktopToggler: false,
-    showNavigationButton: true,
-    showLanguageSwitcher: true,
   },
   three: {
     topbarLayout: "navy",
@@ -83,9 +65,6 @@ const layoutConfig: Partial<Record<HeaderLayout, HeaderLayoutConfig>> = {
     isTransparent: true,
     isMenuRight: true,
     navbarClass: "lg:pe-5",
-    showDesktopToggler: false,
-    showNavigationButton: true,
-    showLanguageSwitcher: true,
   },
 };
 
@@ -98,16 +77,12 @@ const resolvedLayout = isAvailableLayout(headerLayout)
   ? headerLayout
   : isAvailableLayout(layout)
     ? layout
-    : "one";
-const currentLayout = layoutConfig[resolvedLayout] ?? layoutConfig.one!;
+    : "two";
+const currentLayout = layoutConfig[resolvedLayout];
 const hasLanguageSwitcher =
-  config.settings.multilingual.enable &&
-  !isCategoryFilteredPage &&
-  currentLayout.showLanguageSwitcher !== false;
+  config.settings.multilingual.enable && !isCategoryFilteredPage;
 
-const navigationButton = currentLayout.showNavigationButton
-  ? { ...navBtnConfig, ...customNavigationButton }
-  : { ...navBtnConfig, ...customNavigationButton, enable: false };
+const navigationButton = { ...navBtnConfig, ...customNavigationButton };
 
 const hasDesktopActions = hasLanguageSwitcher || navigationButton.enable;
 const logoSrc = currentLayout.hasDarkAppearance ? logoAlternate : undefined;
@@ -125,7 +100,6 @@ const accentAppearance = currentLayout.hasDarkAppearance ? "light" : "dark";
     layout={currentLayout.topbarLayout}
     leftContent={currentLayout.topbarLeftContent}
     size={currentLayout.topbarSize}
-    showLeftDots={currentLayout.showTopbarDots}
   />
 
   <header
@@ -133,16 +107,11 @@ const accentAppearance = currentLayout.hasDarkAppearance ? "light" : "dark";
       "header group/header",
       `header-${resolvedLayout}`,
       { "has-dark-background": currentLayout.hasDarkAppearance },
-      { "header-framed-dark": currentLayout.hasFramedWrapper },
       { "header-transparent": currentLayout.isTransparent },
       ClassName,
     ]}>
     <nav class="relative container">
-      <div
-        class:list={[
-          "hs-dropdown relative flex items-center py-6",
-          currentLayout.navShellClass,
-        ]}>
+      <div class="hs-dropdown relative flex items-center py-6">
         {currentLayout.hasDarkAppearance ? <Logo src={logoSrc} /> : <Logo />}
 
         <Navbar
@@ -186,11 +155,7 @@ const accentAppearance = currentLayout.hasDarkAppearance ? "light" : "dark";
               title={t("aria.openSidebarContent")}
               appearance={accentAppearance}
               isOffcanvasToggler={true}
-              class:list={[
-                "rounded-md",
-                !currentLayout.showDesktopToggler && "lg:hidden",
-                hideOffcanvas ? "lg:hidden" : "",
-              ]}
+              class:list={["rounded-md", "lg:hidden"]}
               aria-haspopup="dialog"
               aria-expanded="false"
               aria-controls="offcanvas-main"

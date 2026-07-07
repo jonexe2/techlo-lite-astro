@@ -1,5 +1,4 @@
 ---
-import OptimizedImage from "@/components/utilities/OptimizedImage.astro";
 import DynamicIcon from "@/helpers/DynamicIcon.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 
@@ -10,9 +9,8 @@ type TopbarContent = "location" | "office-hours";
 interface Props {
   class?: string;
   leftContent?: TopbarContent | TopbarContent[];
-  layout?: "primary" | "light" | "dark" | "navy";
+  layout?: "light" | "navy";
   size?: "default" | "compact";
-  showLeftDots?: boolean;
 }
 
 const {
@@ -21,25 +19,14 @@ const {
   },
 } = config;
 
-let {
-  layout,
-  leftContent = ["office-hours"],
-  size = "default",
-  showLeftDots = false,
-} = Astro.props;
+let { layout, leftContent = ["office-hours"], size = "default" } = Astro.props;
 
 const resolvedLeftContent = Array.isArray(leftContent)
   ? leftContent
   : [leftContent];
 
 const styleClass =
-  layout === "primary"
-    ? "bg-primary text-white"
-    : layout === "navy"
-      ? "bg-dark text-white"
-      : layout === "dark"
-        ? "bg-theme-dark text-white"
-        : "bg-theme-light text-dark";
+  layout === "navy" ? "bg-dark text-white" : "bg-theme-light text-dark";
 
 const sizeClass = size === "compact" ? "py-3 text-sm" : "py-4 text-sm";
 ---
@@ -63,16 +50,6 @@ const sizeClass = size === "compact" ? "py-3 text-sm" : "py-4 text-sm";
             <DynamicIcon name="MapPin" class="size-4 shrink-0" />
             <span class="hide-line-breaks" set:html={markdownify(address)} />
           </div>
-        )
-      }
-
-      {
-        showLeftDots && (
-          <OptimizedImage
-            aria-hidden="true"
-            src="/images/banner-dots.svg"
-            class="pointer-events-none absolute top-1/2 left-full hidden w-18 translate-x-4 -translate-y-1/2 select-none lg:block"
-          />
         )
       }
     </div>

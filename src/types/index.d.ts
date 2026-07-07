@@ -136,20 +136,4 @@ export interface NavigationLink extends ChildNavigationLink {
   menus?: NavigationLink[];
 }
 
-export type HeaderLayout = "one" | "two" | "three";
-export type TopbarContent = "location" | "office-hours";
-export interface HeaderLayoutConfig {
-  topbarLayout: "primary" | "dark" | "navy";
-  topbarLeftContent: TopbarContent[];
-  topbarSize?: "default" | "compact";
-  hasDarkAppearance: boolean;
-  hasFramedWrapper?: boolean;
-  isTransparent?: boolean;
-  isMenuRight: boolean;
-  navbarClass?: string;
-  navShellClass?: string;
-  showDesktopToggler: boolean;
-  showNavigationButton: boolean;
-  showTopbarDots?: boolean;
-  showLanguageSwitcher?: boolean;
-}
+export type HeaderLayout = "two" | "three";
