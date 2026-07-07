@@ -1,7 +1,6 @@
 ---
 import type { NavigationLink } from "@/types";
 import { getLocaleUrlCTM } from "@/lib/utils/i18nUtils";
-import NavMegaMenu from "@/layouts/components/global/header/MegaMenu.astro";
 
 const { pathname } = Astro.url;
 const { recursive } = Astro.props;
@@ -29,7 +28,7 @@ const isMenuActive = (item: NavigationLink): boolean =>
     recursive
       ? "nav-dropdown-item [--offset:22px] [--placement:right-start]"
       : "nav-item",
-    menu.hasMegaMenu || menu.hasChildren ? "relative" : "",
+    menu.hasChildren ? "relative" : "",
   ]}
   role="menuitem">
   <span
@@ -78,7 +77,7 @@ const isMenuActive = (item: NavigationLink): boolean =>
     }
   </span>
   {
-    !menu.hasMegaMenu && menu.hasChildren && (
+    menu.hasChildren && (
       <ul
         class="nav-dropdown-list hs-dropdown-menu hs-dropdown-open:mt-2! hs-dropdown-open:pointer-events-auto hs-dropdown-open:opacity-100 pointer-events-none top-0 mt-4 hidden opacity-0 transition-[opacity,margin] max-lg:m-0! max-lg:transform-none! lg:absolute"
         {...(recursive ? { "aria-orientation": "vertical" } : {})}>
@@ -143,5 +142,4 @@ const isMenuActive = (item: NavigationLink): boolean =>
       </ul>
     )
   }
-  {menu.hasMegaMenu && <NavMegaMenu menu={menu} />}
 </li>

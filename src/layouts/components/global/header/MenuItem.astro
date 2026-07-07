@@ -9,7 +9,7 @@ const menuUrl = menu.url || "/";
 ---
 
 {
-  (menu.hasChildren || menu.hasMegaMenu) && menu.name ? (
+  menu.hasChildren && menu.name ? (
     <NavDropdownMenu menu={menu} />
   ) : (
     menu.name && (

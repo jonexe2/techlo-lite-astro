@@ -22,14 +22,6 @@
     @apply pointer-events-auto opacity-100;
   }
 
-  &.scroll-down .hs-dropdown-menu.mega-menu {
-    @apply pointer-events-none!;
-  }
-
-  &.scroll-up .hs-dropdown-menu.mega-menu {
-    @apply pointer-events-auto;
-  }
-
   &.scroll-up .header:not(.has-dark-background) {
     @apply bg-white backdrop-blur-lg;
   }

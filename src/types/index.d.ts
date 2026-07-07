@@ -129,7 +129,6 @@ export interface NavigationCta {
 
 export interface NavigationLink extends ChildNavigationLink {
   enable: boolean;
-  hasMegaMenu?: boolean;
   cta?: NavigationCta;
   testimonial?: Testimonial;
   services?: Service;
