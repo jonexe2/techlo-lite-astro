@@ -780,3 +780,10 @@
 .has-no-interaction {
   @apply pointer-events-none select-none;
 }
+
+/* FAQ Accordion — desktop-only hover for closed questions */
+@media (hover: hover) and (pointer: fine) {
+  .faq-accordion .hs-accordion:not(.active):hover .hs-accordion-toggle {
+    color: var(--color-primary);
+  }
+}

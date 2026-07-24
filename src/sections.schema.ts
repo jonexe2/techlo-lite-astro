@@ -334,6 +334,21 @@ export const multipurposeSectionSchema = z
   })
   .optional();
 
+export const faqSectionSchema = z
+  .object({
+    enable: z.boolean().default(false).optional(),
+    title: z.string().optional(),
+    items: z
+      .array(
+        z.object({
+          question: z.string(),
+          answer: z.string(),
+        }),
+      )
+      .optional(),
+  })
+  .optional();
+
 export const sectionsSchema = {
   servicesSection: servicesSectionSchema,
   ctaSection: ctaSectionSchema,
@@ -344,4 +359,5 @@ export const sectionsSchema = {
   bannerAgencySection: bannerAgencySectionSchema,
   workingProcessSection: workingProcessSectionSchema,
   multipurposeSection: multipurposeSectionSchema,
+  faqSection: faqSectionSchema,
 };
