@@ -3,7 +3,6 @@ import Button from "@/components/Button.astro";
 import Logo from "@/components/global/Logo.astro";
 import HeaderOffcanvasContent from "@/components/widgets/HeaderOffcanvasContent.astro";
 import Offcanvas from "../../widgets/Offcanvas.astro";
-import LanguageSwitcher from "@/layouts/components/global/header/LanguageSwitcher.astro";
 import NavbarToggler from "@/layouts/components/global/header/NavbarToggler.astro";
 import Navbar from "./Navbar.astro";
 import Topbar from "./Topbar.astro";
@@ -23,10 +22,6 @@ type HeaderLayoutConfig = {
   isMenuRight: boolean;
   navbarClass?: string;
 };
-
-const isCategoryFilteredPage = ["/category/", "/tag/"].some((path) =>
-  Astro.url.pathname.includes(`/${config.settings.blogFolder}${path}`),
-);
 
 const {
   site: { logoAlternate },
@@ -79,12 +74,10 @@ const resolvedLayout = isAvailableLayout(headerLayout)
     ? layout
     : "two";
 const currentLayout = layoutConfig[resolvedLayout];
-const hasLanguageSwitcher =
-  config.settings.multilingual.enable && !isCategoryFilteredPage;
 
 const navigationButton = { ...navBtnConfig, ...customNavigationButton };
 
-const hasDesktopActions = hasLanguageSwitcher || navigationButton.enable;
+const hasDesktopActions = navigationButton.enable;
 const logoSrc = currentLayout.hasDarkAppearance ? logoAlternate : undefined;
 const accentAppearance = currentLayout.hasDarkAppearance ? "light" : "dark";
 ---
@@ -123,20 +116,8 @@ const accentAppearance = currentLayout.hasDarkAppearance ? "light" : "dark";
         />
 
         {
-          hasLanguageSwitcher && (
-            <div class="ms-auto flex lg:hidden">
-              <LanguageSwitcher appearance={accentAppearance} />
-            </div>
-          )
-        }
-
-        {
           hasDesktopActions && (
             <div class="hidden gap-3.5 max-lg:ms-auto max-lg:me-4 lg:flex lg:items-center">
-              {hasLanguageSwitcher && (
-                <LanguageSwitcher appearance={accentAppearance} />
-              )}
-
               {navigationButton.enable && (
                 <Button
                   variant="fill"
